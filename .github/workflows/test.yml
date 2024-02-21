@@ -1,19 +1,21 @@
-name: Run Tests
+#Esto configurará GitHub Actions para que ejecute las pruebas cada vez que se haga un push a la rama main.
+
+name: Run Tests  # Nombre del flujo de trabajo
 
 on:
-  push:
-    branches: [ main ]
+  push:  # Desencadenado cuando se realiza un push
+    branches: [ main ]  # Solo se activa cuando se hace un push a la rama main
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  test:  # Definición de un trabajo llamado "test"
+    runs-on: ubuntu-latest  # El trabajo se ejecutará en un entorno Ubuntu
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    steps:  # Definición de los pasos a seguir en el trabajo
+    - name: Checkout code  # Paso para clonar el repositorio
+      uses: actions/checkout@v2  # Usa la acción de checkout de GitHub
 
-    - name: Install dependencies
-      run: npm install
+    - name: Install dependencies  # Paso para instalar las dependencias del proyecto
+      run: npm install  # Ejecuta el comando npm install
 
-    - name: Run TestCafe
-      run: npm test
+    - name: Run TestCafe  # Paso para ejecutar las pruebas TestCafe
+      run: npm test  # Ejecuta el comando npm test, asumiendo que está configurado para ejecutar las pruebas TestCafe
