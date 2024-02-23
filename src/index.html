@@ -1,8 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Registro</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
 
-<h1>Welcome to your Angular App!</h1>
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-<a href="">About</a>
+    h2 {
+      margin-top: 0;
+    }
 
-<h2>About Us</h2>
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
 
-<button class="login-button">Boton</button>
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="tel"]:focus {
+      outline: none;
+      border-color: #66afe9;
+      box-shadow: 0 0 5px #66afe9;
+    }
+
+    span.error-message {
+      color: red;
+      font-size: 12px;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .password-container input[type="password"] {
+      padding-right: 30px;
+    }
+
+    .password-container .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #999;
+    }
+
+    .password-container .toggle-password:hover {
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+    <div class="container" ng-app="registroApp" ng-controller="registroController">
+      <h2>Formulario de Registro</h2>
+      <form name="registroForm" ng-submit="submitForm()" novalidate>
+        <div>
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" ng-model="usuario.nombre" ng-pattern="/^[a-zA-Z\s]*$/" required>
+          <span class="error-message" ng-show="registroForm.nombre.$touched && registroForm.nombre.$error.required">El nombre es requerido.</span>
+          <span class="error-message" ng-show="registroForm.nombre.$error.pattern">El nombre solo debe contener letras.</span>
+        </div>
+        <div>
+          <label for="apellidoPaterno">Apellido Paterno:</label>
+          <input type="text" id="apellidoPaterno" name="apellidoPaterno" ng-model="usuario.apellidoPaterno" ng-pattern="/^[a-zA-Z\s]*$/" required>
+          <span class="error-message" ng-show="registroForm.apellidoPaterno.$touched && registroForm.apellidoPaterno.$error.required">El apellido paterno es requerido.</span>
+          <span class="error-message" ng-show="registroForm.apellidoPaterno.$error.pattern">El apellido paterno solo debe contener letras.</span>
+        </div>
+        <div>
+          <label for="apellidoMaterno">Apellido Materno:</label>
+          <input type="text" id="apellidoMaterno" name="apellidoMaterno" ng-model="usuario.apellidoMaterno" ng-pattern="/^[a-zA-Z\s]*$/" required>
+          <span class="error-message" ng-show="registroForm.apellidoMaterno.$touched && registroForm.apellidoMaterno.$error.required">El apellido materno es requerido.</span>
+          <span class="error-message" ng-show="registroForm.apellidoMaterno.$error.pattern">El apellido materno solo debe contener letras.</span>
+        </div>
+        <div>
+          <label for="telefono">Teléfono:</label>
+          <input type="tel" id="telefono" name="telefono" ng-model="usuario.telefono" ng-pattern="/^[0-9]*$/" required>
+          <span class="error-message" ng-show="registroForm.telefono.$touched && registroForm.telefono.$error.required">El teléfono es requerido.</span>
+          <span class="error-message" ng-show="registroForm.telefono.$error.pattern">El teléfono solo debe contener números.</span>
+        </div>
+        <div>
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" ng-model="usuario.email" required>
+          <span class="error-message" ng-show="registroForm.email.$touched && registroForm.email.$error.required">El email es requerido.</span>
+          <span class="error-message" ng-show="registroForm.email.$error.email">El email debe tener un formato válido.</span>
+        </div>
+        <div>
+          <label for="contrasena">Contraseña:</label>
+          <div class="password-container">
+            <input type="password" id="contrasena" name="contrasena" ng-model="usuario.contrasena" required>
+            <span class="toggle-password" ng-click="togglePassword('contrasena')">
+              <i class="fas fa-eye"></i>
+            </span>
+          </div>
+          <span class="error-message" ng-show="registroForm.contrasena.$touched && registroForm.contrasena.$error.required">La contraseña es requerida.</span>
+        </div>
+        <div>
+          <label for="confirmarContrasena">Confirmar Contraseña:</label>
+          <div class="password-container">
+            <input type="password" id="confirmarContrasena" name="confirmarContrasena" ng-model="usuario.confirmarContrasena" required>
+            <span class="toggle-password" ng-click="togglePassword('confirmarContrasena')">
+              <i class="fas fa-eye"></i>
+            </span>
+          </div>
+          <span class="error-message" ng-show="registroForm.confirmarContrasena.$touched && registroForm.confirmarContrasena.$error.required">Por favor, confirma tu contraseña.</span>
+          <span class="error-message" ng-show="usuario.confirmarContrasena !== usuario.contrasena && registroForm.confirmarContrasena.$touched">Las contraseñas no coinciden.</span>
+        </div>
+        <button type="submit" ng-disabled="registroForm.$invalid">Registrarse</button>
+      </form>
+    </div>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+      angular.module('registroApp', [])
+      .controller('registroController', function($scope) {
+        $scope.submitForm = function() {
+          if ($scope.registroForm.$valid) {
+            alert('Formulario válido - Enviar datos al servidor');
+          }
+        };
+
+        $scope.togglePassword = function(fieldId) {
+          var field = document.getElementById(fieldId);
+          if (field.type === "password") {
+            field.type = "text";
+          } else {
+            field.type = "password";
+          }
+        };
+      });
+    </script>
+  </body>
+</html>
