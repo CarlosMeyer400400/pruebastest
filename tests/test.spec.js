@@ -1,5 +1,4 @@
 import { Selector } from 'testcafe';
-//prueba de buscar h1 con el texto de Welcome to your Angular App
 fixture `Example Page`
     .page `http://localhost:4200`;
 
